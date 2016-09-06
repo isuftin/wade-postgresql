@@ -1,4 +1,4 @@
-﻿# wade-mssql
+﻿# wade-postgresql
 A collaborative activity of the Water Data Exchange or WaDE project
 
 

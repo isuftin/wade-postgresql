@@ -1,0 +1,16 @@
+﻿-- Table: "WADE"."DBVERSION"
+
+-- DROP TABLE "WADE"."DBVERSION";
+
+CREATE TABLE "WADE"."DBVERSION"
+(
+  "VERSION" character varying(3) NOT NULL,
+  "CHANGE" character varying(200),
+  "UPDATE_SCRIPT" character varying(100),
+  CONSTRAINT "PK_DBVERSION" PRIMARY KEY ("VERSION")
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE "WADE"."DBVERSION"
+  OWNER TO "WADE";

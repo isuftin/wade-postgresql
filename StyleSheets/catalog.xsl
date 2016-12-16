@@ -59,6 +59,7 @@
 </xsl:template>
 
 <xsl:template match="WC:Organization">
+	<hr></hr>
     <p><b><h4>Organization: <xsl:value-of select="WC:OrganizationName"/></h4></b></p>
     <p><h4>Geospatial Reporting Unit: <xsl:value-of select="WC:Report/WC:Location/WC:LocationType"/> -
     <xsl:value-of select="WC:Report/WC:Location/WC:LocationText"/></h4></p>

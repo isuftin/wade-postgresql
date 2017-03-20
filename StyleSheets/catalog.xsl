@@ -15,20 +15,22 @@
 <div class="container">
 	   <div class="header">
 		<ul class="nav nav-pills pull-right">
-			<li class=" ">
-			
-<!--TODO: Check link back to map interface.-->
-
-			<a target="_self" title="Home" href="http://wswc.maps.arcgis.com/apps/MapJournal/index.html?appid=0559c438673a4c42bb29d91aaaa1cb9a">Back to Map</a>
-			</li>
 			<li class=" active ">
-			<a target="_self" title="About" href="http://www.westernstateswater.org/wade">About</a>
+			<a target="_self" title="About" href="http://wade.westernstateswater.org/about-wade/">About WaDE</a>
 			</li>
+			<li class=" ">
+			<a target="_self" title="WaDEMaps" href="http://wade.westernstateswater.org/wade-by-location/">Back to WaDE By Map</a>
+			</li>
+			<li class=" ">
+			<a target="_self" title="WaDEDataTypes" href="http://wade.westernstateswater.org/wade-by-datatype/">Back to WaDE by DataType</a>
+			</li>
+
 		</ul>
 		<a href="http://www.westernstateswater.org" title="WSWC Home">
-		<img src="../images/wswclogo.png" alt="WSWC logo" height="60"/>
+		<img src="../images/wswclogo.png" alt="WSWC logo" height="90"/>
 		</a>
-		<h1>Western States Water Council - Water Data Exchange (WaDE) Catalog</h1>
+		<h1>Western States Water Council<br/>
+		Water Data Exchange (WaDE) Catalog</h1>
 	    </div>
 	    
        <div class="row">
@@ -59,9 +61,11 @@
 </xsl:template>
 
 <xsl:template match="WC:Organization">
+
 	<hr></hr>
     <p><b><h4>Organization: <xsl:value-of select="WC:OrganizationName"/></h4></b></p>
-    <p><h4>Geospatial Reporting Unit: <xsl:value-of select="WC:Report/WC:Location/WC:LocationType"/> -
+    <p><h4>Location Information: <xsl:value-of select="WC:Report/WC:Location/WC:LocationName"/> - 
+    <xsl:value-of select="WC:Report/WC:Location/WC:LocationType"/> -
     <xsl:value-of select="WC:Report/WC:Location/WC:LocationText"/></h4></p>
 
        <div class="row">
@@ -87,16 +91,16 @@
 
 <xsl:if test="WC:Report/WC:Location/WC:DataAvailable/WC:DataCategory='SUMMARY'">
 
-	<p>To retrieve ALL of <xsl:value-of select="WC:OrganizationName"/>'s 
-	SUMMARY datasets by report: </p>
-<table>
+	<p>ALL SUMMARIZED DATA BY REPORT: To retrieve a report that contains all summary-level datatypes within 
+	a watershed/HUC/County by <xsl:value-of select="WC:OrganizationName"/>: </p>
+<table style="width:700px">
 	<tr>
 	<td>
 	<table>
 	<tr>
-		<th>Report</th>
-		<th>Data Category</th>
-		<th>View Entire Report</th>
+		<th style="width:100px">Report</th>
+		<th style="width:150px">Data Category</th>
+		<th style="width:200px">View This Report</th>
 	</tr>
 	
 <xsl:apply-templates select="WC:Report/WC:Location/WC:DataAvailable/WC:DataCategory"/>
@@ -109,21 +113,21 @@
 
 <!--Start of non-all requests -->
 <p></p>
-	<p>To retrieve summary-level and detailed data by report and by data category and type:</p>
+	<p>DATA BY DATATYPE: To retrieve both summaries and site-specific/detailed data by report and by data type:</p>
         <p><h6>*Note: Requests for DETAILED DATA may have more 
         extensive data-retrieval times. Please be patient while the query is retrieved to your browser. 
         The query retrieval could take several minutes depending on website traffic and your network speeds.
         Use the table below to access detailed datasets by report, data category, and data type.</h6></p>      
 
-<table>
+<table style="width:750px">
 	<tr>
 	<td>
 	<table>
 	<tr>
-		<th>Report</th>
-		<th>Data Category*</th>
-		<th>Data Type</th>
-		<th>View by Data Type</th>
+		<th style="width:100px">Report</th>
+		<th style="width:150px">Data Category*</th>
+		<th style="width:200px">Datatype</th>
+		<th style="width:300px">View Report by Data Type</th>
 	</tr>
 	
 <xsl:apply-templates select="WC:Report/WC:Location/WC:DataAvailable"/>
@@ -157,7 +161,7 @@
 				<xsl:attribute name="TARGET">
 				<xsl:text disable-output-escaping="yes">_blank</xsl:text>
 				</xsl:attribute>
-				All Summary Data</a></td>
+				View Data</a></td>
 		</xsl:when>
 		
 <!--	Uncomment these lines if the "ALL" retrieval speeds for Detailed Data get faster...

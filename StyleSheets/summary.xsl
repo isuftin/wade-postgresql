@@ -10,19 +10,19 @@
 		<title>WSWC - Summary Data</title>
 		<link rel="stylesheet" href="../styles/vendor.css" />
 		<link rel="stylesheet" href="../styles/main.css" />
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    		<script type="text/javascript" src="https://www.google.com/jsapi"></script>   		
+		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>	
    			 
     		<xsl:for-each select="WC:Organization/WC:Report/WC:ReportingUnit/WC:WaterUseSummary">
 
 		<script type="text/javascript">
-      			google.load('visualization', '1', {packages: ['corechart']});
-       		</script>
- 		<script type="text/javascript">
-			function drawVisualization() {
+      			google.charts.load('current', {packages: ['corechart']});
+      			google.charts.setOnLoadCallback(drawVisualization);
+      			
+      			function drawVisualization() {
           		var data = new google.visualization.arrayToDataTable([
-        		['Water Use', 'acre feet per year'],
+        		['Water Use Categories', 'Acre Feet Per Year (AFY)'],
 			<xsl:for-each select="WC:WaterUse">
 			<xsl:sort select="WC:WaterUseTypeName"/>
          		  ['<xsl:value-of select="WC:WaterUseTypeName"/>',<xsl:value-of select="WC:WaterUseAmountSummary/WC:WaterUseAmount/WC:AmountNumber"/>]
@@ -32,24 +32,21 @@
 			</xsl:for-each>
         		]);
         
-        		var options = {'title':'Water Use Percentage','width':400,'height':300,'is3D':true,chma:[0,0,0,0],legend:{position:'right'},'colors':['#A2CCC1', '#FFE8AA', '#E8DE67', '#E57152', '#4D2B2F']};
-        		new google.visualization.PieChart(document.getElementById('<xsl:value-of select="../../WC:ReportIdentifier"/>WaterUse<xsl:value-of select="../WC:ReportingUnitIdentifier"/>')).draw(data, options);
+        		var options = {title:'Water Use Categories', width:600,height:300,is3D:true,chma:[0,0,0,0],legend:{position:'right'},colors:['#A2CCC1', '#FFE8AA', '#E8DE67', '#E57152', '#4D2B2F']}; 		
+        		var chart = new google.visualization.PieChart(document.getElementById('<xsl:value-of select="../../WC:ReportIdentifier"/>WaterUse<xsl:value-of select="../WC:ReportingUnitIdentifier"/>')).draw(data, options);
         		}
-			google.setOnLoadCallback(drawVisualization); 
 		</script>
 	
 		</xsl:for-each>
 
 		<xsl:for-each select="WC:Organization/WC:Report/WC:ReportingUnit/WC:DerivedWaterSupplySummary">
 		<script type="text/javascript">
-      			google.load('visualization', '1', {packages: ['corechart']});
-       		</script>
-	
-       		<script type="text/javascript">
+      			google.charts.load('current', {packages: ['corechart']});
+      			google.charts.setOnLoadCallback(drawVisualization);
 
-			function drawVisualization() {
-               		var data = new google.visualization.arrayToDataTable([
-        		['Water Supply Type', 'acre feet per year'],
+      			function drawVisualization() {
+               	var data = new google.visualization.arrayToDataTable([
+        		['Water Supply Types', 'Acre Feet Per Year (AFY)'],
 			<xsl:for-each select="WC:DerivedWaterSupplyType">
 			<xsl:sort select="WC:WaterSupplyTypeName"/>
          		  ['<xsl:value-of select="WC:WaterSupplyTypeName"/>',<xsl:value-of select="WC:SupplyAmountSummary/WC:AmountNumber"/>]
@@ -58,23 +55,20 @@
   			</xsl:choose>
 			</xsl:for-each>
 			]);
-        		var options = {'title':'Water Supply','width':600,'height':300,'is3D':false,chma:[0,0,0,0],legend:{position:'bottom'},'colors':['#A2CCC1', '#FFE8AA', '#E8DE67', '#E57152', '#4D2B2F']};
-   		        new google.visualization.BarChart(document.getElementById('<xsl:value-of select="../../WC:ReportIdentifier"/>WaterSupply<xsl:value-of select="../WC:ReportingUnitIdentifier"/>')).draw(data,options);
+        		var options = {title:'Water Supply Types',chartArea:{left:150,top:15,width:'75%',height:'80%'},width:620,height:300,is3D:false,chma:[0,0,0,0],legend:{position:'bottom'},colors:['#A2CCC1', '#FFE8AA', '#E8DE67', '#E57152', '#4D2B2F']};
+   		        var chart = new google.visualization.BarChart(document.getElementById('<xsl:value-of select="../../WC:ReportIdentifier"/>WaterSupply<xsl:value-of select="../WC:ReportingUnitIdentifier"/>')).draw(data,options);
    		        }
-   		        google.setOnLoadCallback(drawVisualization);
-      		</script>
-      		</xsl:for-each>
+  		</script>
+   		</xsl:for-each>
 	
       		<xsl:for-each select="WC:Organization/WC:Report/WC:ReportingUnit/WC:AllocationSummary">
 		<script type="text/javascript">
-      			google.load('visualization', '1', {packages: ['corechart']});
-       		</script>
-	
-       		<script type="text/javascript">
+      			google.charts.load('current', {packages: ['corechart']});
+      			google.charts.setOnLoadCallback(drawVisualization);
 
-			function drawVisualization() {
-               		var data = new google.visualization.arrayToDataTable([
-        		['Allocation', 'acre feet per year'],
+      			function drawVisualization() {
+               	var data = new google.visualization.arrayToDataTable([
+        		['Allocation Beneficial Use Percentages', 'Acre Feet Per Year (AFY)'],
 			<xsl:for-each select="WC:AllocationUse">
 			<xsl:sort select="WC:AllocationUseTypeName"/>
          		  ['<xsl:value-of select="WC:AllocationUseTypeName"/>',<xsl:value-of select="WC:AllocationAmountSummary/WC:AmountNumber"/>]
@@ -83,10 +77,9 @@
   			</xsl:choose>
 			</xsl:for-each>
 			]);
-        		var options = {'title':'Allocated Beneficial Use Percentage','width':400,'height':300,'is3D':true,chma:[0,0,0,0],legend:{position:'right'},'colors':['#A2CCC1', '#FFE8AA', '#E8DE67', '#E57152', '#4D2B2F']};
+        		var options = {title:'Allocated Beneficial Use Percentage',width:600,height:300,is3D:true,chma:[0,0,0,0],legend:{position:'right'},colors:['#A2CCC1', '#FFE8AA', '#E8DE67', '#E57152', '#4D2B2F']};
    		        new google.visualization.PieChart(document.getElementById('<xsl:value-of select="../../WC:ReportIdentifier"/>Allocation<xsl:value-of select="../WC:ReportingUnitIdentifier"/>')).draw(data,options);
    		        }
-   		        google.setOnLoadCallback(drawVisualization);
       		</script>
       		</xsl:for-each>
 </head>
@@ -94,18 +87,21 @@
  	<div class="container">
 	   <div class="header">
 		<ul class="nav nav-pills pull-right">
-			<li class=" ">
-		<!--TODO: Add link back to map interface.-->
-			<a target="_self" title="Home" href="http://wswc.maps.arcgis.com/apps/MapJournal/index.html?appid=0559c438673a4c42bb29d91aaaa1cb9a">Back to Map</a>
-			</li>
 			<li class=" active ">
-			<a target="_self" title="About" href="http://www.westernstateswater.org/wade">About</a>
+			<a target="_self" title="About" href="http://wade.westernstateswater.org/about-wade/">About WaDE</a>
+			</li>
+			<li class=" ">
+			<a target="_self" title="WaDEMaps" href="http://wade.westernstateswater.org/wade-by-location/">Back to WaDE By Map</a>
+			</li>
+			<li class=" ">
+			<a target="_self" title="WaDEDataTypes" href="http://wade.westernstateswater.org/wade-by-datatype/">Back to WaDE by DataType</a>
 			</li>
 		</ul>
 		<a href="http://www.westernstateswater.org" title="WSWC Home">
-		<img src="../images/wswclogo.png" alt="WSWC logo" height="60"/>
+		<img src="../images/wswclogo.png" alt="WSWC logo" height="90"/>
 		</a>
-		<h1>Western States Water Council - Water Data Exchange (WaDE) Summary Data</h1>
+		<h1>Western States Water Council<br/>
+		Water Data Exchange (WaDE) Summary Data</h1>
 	    </div>	
      
 	<div class="row">
@@ -120,7 +116,9 @@
           </div>
         </div>
         </div>   
+        
 	<xsl:apply-templates select="WC:Organization"/>
+	
 </div>	
 </body>
 </html>
@@ -128,11 +126,11 @@
 
 <xsl:template match="WC:Organization">
 
+	<hr></hr>
     <p><b><h4>Organization: <xsl:value-of select="WC:OrganizationName"/></h4></b></p>    
-    <p><h4>Location Information: <xsl:value-of select="WC:Report/WC:ReportingUnit/WC:Location/WC:StateCode"/> - 
+    <p><h4>Location Information: <xsl:value-of select="WC:Report/WC:ReportingUnit/WC:ReportingUnitName"/> -
     <xsl:value-of select="WC:Report/WC:ReportingUnit/WC:ReportingUnitTypeName"/> -
-    <xsl:value-of select="WC:Report/WC:ReportingUnit/WC:ReportingUnitIdentifier"/> - 
-    <xsl:value-of select="WC:Report/WC:ReportingUnit/WC:ReportingUnitName"/></h4></p>
+    <xsl:value-of select="WC:Report/WC:ReportingUnit/WC:ReportingUnitIdentifier"/></h4></p>
    
 <xsl:apply-templates select="WC:Report"/>
 </xsl:template> 
@@ -147,38 +145,35 @@ or the JSON, geoJSON, etc. -->
 
 <xsl:if test="WC:GeospatialReference/WC:WFSType/WC:WFSDataCategory='SUMMARY'">
 
-	<p><h4>Related Web Feature Service(s) (WFS):</h4>
-	<table border="1">
+	<p><h4>State Agency Maps and Web Feature Services (WFS):</h4>
+	<table style="width:300px">
 		<tr>
-		<th>WFS Type</th>
-		<th>WFS Link</th>
-		<th>Unique ID Field</th>
+		<th></th>
 		</tr>
 		<xsl:for-each select="WC:GeospatialReference/WC:WFSType">
 		<tr>
-   			<td><xsl:value-of select="WC:WFSTypeName"/></td>
    			<td><a><xsl:attribute name="href">
    				<xsl:value-of select="WC:WFSAddressLink"/>
    				</xsl:attribute>
    				<xsl:attribute name="TARGET">
    				<xsl:text disable-output-escaping="yes">
    				_blank</xsl:text>
-   				</xsl:attribute>Click Here for WFS</a></td>
-   			<td><xsl:value-of select="WC:WFSFeatureIDFieldText"/></td>
+   				</xsl:attribute><xsl:value-of select="WC:WFSTypeName"/></a></td>
    		</tr>
        </xsl:for-each>
    </table></p>
 </xsl:if>
 
 <xsl:for-each select="WC:ReportingUnit">
-     	<p>This summary is relevant for the reporting year: <xsl:value-of select="../WC:ReportingYear"/></p>
+     	<p>This summary is relevant for the reporting year: <xsl:value-of select="../WC:ReportingYear"/> - 
+     	<xsl:value-of select="../WC:YearType"/></p>
    	<p>These data were reported on: <xsl:value-of select="../WC:ReportingDate"/></p>
 	<xsl:choose>
 		<xsl:when test="WC:AvailabilitySummary">
    		<button type="button" class="btn btn-info collapsed" data-toggle="collapse" data-target="#demo">
 		<p><b><u><h4>Water Availability Summary</h4></u></b></p></button>
   		<div id="demo" class="collapse">
-		<p><table border="1">
+		<p><table style="width:1600px">
      		<tr>
        		<th>Availability Type</th>
        		<th>Fresh/Saline</th>
@@ -188,7 +183,7 @@ or the JSON, geoJSON, etc. -->
        		<th>Amount</th>
        		<th>Units</th>
        		<th>Amount Methodology</th>
-		<th>Metric Name</th>
+       		<th>Metric Name</th>
        		<th>Metric Value</th>
        		<th>Scale Max</th>
        		<th>Metric Methodology</th>
@@ -196,7 +191,7 @@ or the JSON, geoJSON, etc. -->
      		<xsl:for-each select="WC:AvailabilitySummary">
 		<xsl:sort select="WC:AvailabilityTypeName"/>
 			<tr>
-       			<td><xsl:value-of select="WC:AvailabilityTypeName"/></td>
+       		<td><xsl:value-of select="WC:AvailabilityTypeName"/></td>
 			<td><xsl:value-of select="WC:FreshSalineIndicator"/></td>
 			<td><xsl:value-of select="WC:AvailabilityEstimate/WC:AvailabilityAmount/WC:TimeFrame/WC:TimeFrameStartName"/></td>
 			<td><xsl:value-of select="WC:AvailabilityEstimate/WC:AvailabilityAmount/WC:TimeFrame/WC:TimeFrameEndName"/></td>
@@ -220,7 +215,7 @@ or the JSON, geoJSON, etc. -->
 			</xsl:choose></td>
 			<xsl:choose>
 				<xsl:when test="WC:AvailabilityEstimate/WC:AvailabilityAmount/WC:AmountNumber">
-					<td><xsl:value-of select="format-number(WC:AvailabilityEstimate/WC:AvailabilityAmount/WC:AmountNumber, '#,###.00','num')"/></td>
+					<td><xsl:value-of select="format-number(WC:AvailabilityEstimate/WC:AvailabilityAmount/WC:AmountNumber, '#,###.##','num')"/></td>
 					<td>acre feet/year</td>
 					<td><a><xsl:attribute name="href">
 					<xsl:value-of select="../../../WC:WaDEURLAddress"/>
@@ -242,8 +237,8 @@ or the JSON, geoJSON, etc. -->
 			<xsl:choose>
 				<xsl:when test="WC:AvailabilityEstimate/WC:AvailabilityMetric/WC:MetricName">
 					<td><xsl:value-of select="WC:AvailabilityEstimate/WC:AvailabilityMetric/WC:MetricName"/></td>
-					<td><xsl:value-of select="format-number(WC:AvailabilityEstimate/WC:AvailabilityMetric/WC:MetricValue, '#,###.00','num')"/></td>
-					<td><xsl:value-of select="format-number(WC:AvailabilityEstimate/WC:AvailabilityMetric/WC:MetricScaleNumber, '#,###.00','num')"/></td>
+					<td><xsl:value-of select="format-number(WC:AvailabilityEstimate/WC:AvailabilityMetric/WC:MetricValue, '#,###','num')"/></td>
+					<td><xsl:value-of select="format-number(WC:AvailabilityEstimate/WC:AvailabilityMetric/WC:MetricScaleNumber, '#,###','num')"/></td>
 					<td><a><xsl:attribute name="href">
 					<xsl:value-of select="../../../WC:WaDEURLAddress"/>
 						<xsl:text disable-output-escaping="yes">/WADE/v0.2/GetMethod/GetMethod.php?methodid=</xsl:text>
@@ -280,7 +275,7 @@ or the JSON, geoJSON, etc. -->
 			<div><xsl:attribute name="id"><xsl:value-of select="../WC:ReportIdentifier"/>WaterUse<xsl:value-of select="WC:ReportingUnitIdentifier"/></xsl:attribute></div>
 			</td>
 			<td>
-			<table border="1">
+			<table style="width:1600px">
      			<tr>
 			<th>Beneficial Use</th>
        			<th>Consumptive Use?</th>
@@ -291,8 +286,7 @@ or the JSON, geoJSON, etc. -->
        			<th>Crop Type</th>
        			<th>Population Served</th>
        			<th>Power Generated (MWH)</th>       			
-       			<th>Amount</th>
-       			<th>Units</th>
+       			<th>Acre-Feet Per Year (AFY)</th>
        			<th>Start Date</th>
        			<th>End Date</th>
        			<th>GIS Feature</th>
@@ -306,12 +300,11 @@ or the JSON, geoJSON, etc. -->
 				<td><xsl:value-of select="WC:WaterUseAmountSummary/WC:FreshSalineIndicator"/></td>
 				<td><xsl:value-of select="WC:WaterUseAmountSummary/WC:SourceTypeName"/></td>
 				<td><xsl:value-of select="WC:WaterUseAmountSummary/WC:IrrigationWaterSupply/WC:IrrigationMethodName"/></td>
-				<td><xsl:value-of select="WC:WaterUseAmountSummary/WC:IrrigationWaterSupply/WC:AcresIrrigatedNumber"/></td>
+				<td><xsl:value-of select="format-number(WC:WaterUseAmountSummary/WC:IrrigationWaterSupply/WC:AcresIrrigatedNumber, '#,###','num')"/></td>
 				<td><xsl:value-of select="WC:WaterUseAmountSummary/WC:IrrigationWaterSupply/WC:CropTypeName"/></td>
-				<td><xsl:value-of select="WC:WaterUseAmountSummary/WC:PopulationServedNumber"/></td>
-				<td><xsl:value-of select="WC:WaterUseAmountSummary/WC:PowerGeneratedNumber"/></td>
-				<td><xsl:value-of select="WC:WaterUseAmountSummary/WC:WaterUseAmount/WC:AmountNumber"/></td>				
-				<td>acre feet/year</td>
+				<td><xsl:value-of select="format-number(WC:WaterUseAmountSummary/WC:PopulationServedNumber, '#.###','num')"/></td>
+				<td><xsl:value-of select="format-number(WC:WaterUseAmountSummary/WC:PowerGeneratedNumber, '#.###','num')"/></td>
+				<td><xsl:value-of select="format-number(WC:WaterUseAmountSummary/WC:WaterUseAmount/WC:AmountNumber, '#,###.##','num')"/></td>				
 				<td><xsl:value-of select="WC:WaterUseAmountSummary/WC:WaterUseAmount/WC:TimeFrame/WC:TimeFrameStartName"/></td>
 				<td><xsl:value-of select="WC:WaterUseAmountSummary/WC:WaterUseAmount/WC:TimeFrame/WC:TimeFrameEndName"/></td>	
 				<!--Test for use WFS. If yes, add use GIS hyperlink. If no, omit hyperlink-->
@@ -366,20 +359,18 @@ or the JSON, geoJSON, etc. -->
 			<div><xsl:attribute name="id"><xsl:value-of select="../WC:ReportIdentifier"/>WaterSupply<xsl:value-of select="WC:ReportingUnitIdentifier"/></xsl:attribute></div>
 			</td>
 			<td>
-			<table border="1">
+			<table style="width:800px">
      			<tr>
 			<th>Supply Type</th>
-       			<th>Amount</th>
-			<th>Units</th>
+       		<th>Acre-Feet Per Year (AFY)</th>
 			<th>GIS Feature</th>
-       			<th>Water Supply Methodology</th>
+       		<th>Water Supply Methodology</th>
        			</tr>
        			<xsl:for-each select="WC:DerivedWaterSupplySummary/WC:DerivedWaterSupplyType">
 			<xsl:sort select="WC:WaterSupplyTypeName"/>
 				<tr>
 				<td><xsl:value-of select="WC:WaterSupplyTypeName"/></td>
-				<td><xsl:value-of select="WC:SupplyAmountSummary/WC:AmountNumber"/></td>
-				<td>acre feet/year</td>
+				<td><xsl:value-of select="format-number(WC:SupplyAmountSummary/WC:AmountNumber, '#,###.##','num')"/></td>
 				<!--Test for supply WFS. If yes, add supply GIS hyperlink. If no, omit hyperlink-->
 				<td><xsl:choose>
 					<xsl:when test="../../../WC:GeospatialReference/WC:WFSType/WC:WFSTypeName='SUPPLY'">
@@ -432,7 +423,7 @@ or the JSON, geoJSON, etc. -->
 			<div><xsl:attribute name="id"><xsl:value-of select="../WC:ReportIdentifier"/>Allocation<xsl:value-of select="WC:ReportingUnitIdentifier"/></xsl:attribute></div>
 			</td>
 			<td>
-			<table border="1">
+			<table style="width:1200px">
      			<tr>
 			<th>Allocation Beneficial Use</th>
        			<th>Fresh/Saline</th>
@@ -440,8 +431,7 @@ or the JSON, geoJSON, etc. -->
        			<th>Irrigation?</th>
        			<th>Irrigated Acres</th>
        			<th>Crop Type</th>
-       			<th>Amount</th>
-       			<th>Units</th>
+       			<th>Acre-Feet Per Year (AFY)</th>
        			<th>GIS Feature</th>
 			</tr>
 			<xsl:for-each select="WC:AllocationSummary/WC:AllocationUse">
@@ -451,10 +441,9 @@ or the JSON, geoJSON, etc. -->
 				<td><xsl:value-of select="WC:AllocationAmountSummary/WC:FreshSalineIndicator"/></td>
 				<td><xsl:value-of select="WC:AllocationAmountSummary/WC:SourceTypeName"/></td>
 				<td><xsl:value-of select="WC:AllocationAmountSummary/WC:IrrigationWaterSupply/WC:IrrigationMethodName"/></td>
-				<td><xsl:value-of select="WC:AllocationAmountSummary/WC:IrrigationWaterSupply/WC:AcresIrrigatedNumber"/></td>
+				<td><xsl:value-of select="format-number(WC:AllocationAmountSummary/WC:IrrigationWaterSupply/WC:AcresIrrigatedNumber, '#,###','num')"/></td>
 				<td><xsl:value-of select="WC:AllocationAmountSummary/WC:IrrigationWaterSupply/WC:CropTypeName"/></td>
-				<td><xsl:value-of select="WC:AllocationAmountSummary/WC:AmountNumber"/></td>				
-				<td>acre feet/year</td>
+				<td><xsl:value-of select="format-number(WC:AllocationAmountSummary/WC:AmountNumber, '#,###.##','num')"/></td>				
 				<!--Test for allocation WFS. If yes, add allocation GIS hyperlink. If no, omit hyperlink-->				
 				<td><xsl:choose>
 					<xsl:when test="../../../WC:GeospatialReference/WC:WFSType/WC:WFSTypeName='ALLOCATION'">
@@ -489,12 +478,12 @@ or the JSON, geoJSON, etc. -->
   			<button type="button" class="btn btn-info collapsed" data-toggle="collapse" data-target="#demo4">		
 			<p><b><u><h4>Regulatory/Institutional Summary</h4></u></b></p></button>
 			<div id="demo4" class="collapse">
-			<table border="1">
+			<table style="width:1200px">
      			<tr>
 			<th>Regulatory Type</th>
-       			<th>Regulatory Status</th>
+       		<th>Regulatory Status</th>
 			<th>Oversight Agency</th>
-			<th>GIS Feature (json)</th>
+			<th>GIS Feature</th>
        			<th>Regulatory Description</th>
        			</tr>
        			<xsl:for-each select="WC:RegulatorySummary/WC:RegulatoryType">

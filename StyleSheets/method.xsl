@@ -16,18 +16,21 @@
 	<div class="container">
 	   <div class="header">
 		<ul class="nav nav-pills pull-right">
-			<li class=" ">
-		<!--TODO: Add link back to map interface.-->
-			<a target="_self" title="Home" href="http://wswc.maps.arcgis.com/apps/MapJournal/index.html?appid=0559c438673a4c42bb29d91aaaa1cb9a">Back to Map</a>
-			</li>
 			<li class=" active ">
-			<a target="_self" title="About" href="http://www.westernstateswater.org/wade">About</a>
+			<a target="_self" title="About" href="http://wade.westernstateswater.org/about-wade/">About WaDE</a>
+			</li>
+			<li class=" ">
+			<a target="_self" title="WaDEMaps" href="http://wade.westernstateswater.org/wade-by-location/">Back to WaDE By Map</a>
+			</li>
+			<li class=" ">
+			<a target="_self" title="WaDEDataTypes" href="http://wade.westernstateswater.org/wade-by-datatype/">Back to WaDE by DataType</a>
 			</li>
 		</ul>
 		<a href="http://www.westernstateswater.org" title="WSWC Home">
-		<img src="../images/wswclogo.png" alt="WSWC logo" height="60"/>
+		<img src="../images/wswclogo.png" alt="WSWC logo" height="90"/>
 		</a>
-		<h1>Western States Water Council - Water Data Exchange (WaDE) Methodology Data</h1>
+		<h1>Western States Water Council<br/>
+		Water Data Exchange (WaDE) Methodology Information</h1>
 	    </div>	
      
 	<div class="row">
@@ -42,6 +45,7 @@
           </div>
         </div>
        </div>   
+       
 <xsl:apply-templates select="WC:Organization"/>
 </div>	
 </body>
@@ -60,8 +64,8 @@
  <xsl:choose>   
    	<xsl:when test="WC:MethodName">
 		<p><h4> Methodology Name:  <xsl:value-of select="WC:MethodName"/></h4></p>
-		<p> Methodology Description:  <xsl:value-of select="WC:MethodDescriptionText"/></p>
- 		<p><table border="1">
+		<p><h4>Description:  <xsl:value-of select="WC:MethodDescriptionText"/></h4></p>
+ 		<p><table style="width:1000px">
      		<tr>
        		<th>Development Date</th>
        		<th>Method Type</th>
@@ -92,12 +96,12 @@
 	</xsl:choose>
 	<xsl:choose>
 		<xsl:when test="WC:DataSource">		
-		<p><table border="1">
+		<p><table style="width:1000px">
      		<tr>
        		<th>Data Source Name</th>
        		<th>Data Source Description</th>
-       		<th>Data Source Time Period - Start</th>
-       		<th>Data Source Time Period - End</th>
+       		<th style="width:150px">Data Source Time Period - Start</th>
+       		<th style="width:150px">Data Source Time Period - End</th>
        		<th>Data Source Information</th>
      		</tr>
      		<xsl:for-each select="WC:DataSource/WC:DataSourceName">

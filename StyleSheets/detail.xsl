@@ -4,35 +4,36 @@
 	xmlns:WC="http://www.exchangenetwork.net/schema/WaDE/0.2">
 <xsl:decimal-format name="num" decimal-separator="." grouping-separator=","/>
 <xsl:template match="WC:WaDE">
-<html>
+   <html>
    	<head>
-   		<meta name="description" content="WSWS - Details" />
+   		<meta name="description" content="WSWC - Details" />
 		<title>WSWC - Detailed (Site-specific) Data</title>
 		<link rel="stylesheet" href="../styles/vendor.css" />
 		<link rel="stylesheet" href="../styles/main.css" />
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>	
    	</head>
    	
-
-   	
-   	<body>
+  <body>
         
    	<div class="container">
 	   <div class="header">
 		<ul class="nav nav-pills pull-right">
-			<li class=" ">
-		<!--TODO: Add link back to map interface.-->
-			<a target="_self" title="Home" href="http://wswc.maps.arcgis.com/apps/MapJournal/index.html?appid=0559c438673a4c42bb29d91aaaa1cb9a">Back to Map</a>
-			</li>
 			<li class=" active ">
-			<a target="_self" title="About" href="http://www.westernstateswater.org/wade">About</a>
+			<a target="_self" title="About" href="http://wade.westernstateswater.org/about-wade/">About WaDE</a>
+			</li>
+			<li class=" ">
+			<a target="_self" title="WaDEMaps" href="http://wade.westernstateswater.org/wade-by-location/">Back to WaDE By Map</a>
+			</li>
+			<li class=" ">
+			<a target="_self" title="WaDEDataTypes" href="http://wade.westernstateswater.org/wade-by-datatype/">Back to WaDE by DataType</a>
 			</li>
 		</ul>
 		<a href="http://www.westernstateswater.org" title="WSWC Home">
-		<img src="../images/wswclogo.png" alt="WSWC logo" height="60"/>
+		<img src="../images/wswclogo.png" alt="WSWC logo" height="90"/>
 		</a>
-		<h1>Western States Water Council - Water Data Exchange (WaDE) Detailed Data</h1>
+		<h1>Western States Water Council<br/>
+		Water Data Exchange (WaDE) Detailed Data</h1>
 	    </div>	
      
 	<div class="row">
@@ -47,55 +48,48 @@
           </div>
         </div>
         </div>
+        
    	<xsl:apply-templates select="WC:Organization"/>
+   	
    	</div>
-   </body>
+  </body>
 </html>
-</xsl:template> 
+</xsl:template>
 
 <xsl:template match="WC:Organization">
-	<p><b><h4>Organization: <xsl:value-of select="WC:OrganizationName"/></h4></b></p>
-	<p><h4><u>Location Information</u></h4></p>
-	<p>State: <xsl:value-of select="WC:Report/WC:ReportDetails/WC:WaterAllocation/WC:DetailLocation/WC:StateCode"/></p> 
-<xsl:if test="WC:Report/WC:ReportDetails/WC:WaterAllocation/WC:DetailLocation/WC:PrimaryLocationType='REPORTUNIT'">
-	<p>Reporting Unit: <xsl:value-of select="WC:Report/WC:ReportDetails/WC:WaterAllocation/WC:DetailLocation/WC:PrimaryLocationText"/></p>
+	<hr></hr>
+    <p><b><h4>Organization: <xsl:value-of select="WC:OrganizationName"/></h4></b></p>    
+	<p><h4>Location Information: <xsl:value-of select="WC:Report/WC:ReportDetails/WC:WaterAllocation/WC:DetailLocation/WC:StateCode"/> - 
+<xsl:if test="WC:Report/WC:ReportDetails/WC:WaterAllocation/WC:DetailLocation/WC:PrimaryLocationType='REPORTUNIT'">Report Unit: <xsl:value-of select="WC:Report/WC:ReportDetails/WC:WaterAllocation/WC:DetailLocation/WC:PrimaryLocationText"/>
 </xsl:if>
-<xsl:if test="WC:Report/WC:ReportDetails/WC:WaterAllocation/WC:DetailLocation/WC:PrimaryLocationType='COUNTY'">
-	<p>County: <xsl:value-of select="WC:Report/WC:ReportDetails/WC:WaterAllocation/WC:DetailLocation/WC:PrimaryLocationText"/></p>
+<xsl:if test="WC:Report/WC:ReportDetails/WC:WaterAllocation/WC:DetailLocation/WC:PrimaryLocationType='COUNTY'">County: <xsl:value-of select="WC:Report/WC:ReportDetails/WC:WaterAllocation/WC:DetailLocation/WC:PrimaryLocationText"/>
 </xsl:if>
-<xsl:if test="WC:Report/WC:ReportDetails/WC:WaterAllocation/WC:DetailLocation/WC:PrimaryLocationType='HUC'">	
-	<p>Hydrologic Unit Code (HUC): <xsl:value-of select="WC:Report/WC:ReportDetails/WC:WaterAllocation/WC:DetailLocation/WC:PrimaryLocationText"/></p>
+<xsl:if test="WC:Report/WC:ReportDetails/WC:WaterAllocation/WC:DetailLocation/WC:PrimaryLocationType='HUC'">HUC: <xsl:value-of select="WC:Report/WC:ReportDetails/WC:WaterAllocation/WC:DetailLocation/WC:PrimaryLocationText"/>
 </xsl:if>
+</h4></p>
 
 <xsl:apply-templates select="WC:Report"/>
-</xsl:template> 
+
+</xsl:template>
 
 <xsl:template match="WC:Report">
 
-<!--TODO: Ensure that each WFS shared by your organization is publically available,
-i.e. a user does not need to log in to a website/provide credentials to access a map
-or the JSON, geoJSON, etc. -->
 
-<!--Test for WFS-->
 <xsl:if test="WC:GeospatialReference/WC:WFSType/WC:WFSDataCategory='DETAIL'">
-  	<p><h4>Related Web Feature Service(s) (WFS):</h4>
-  	<table border="1">
-  		<tr>
-   	<th>WFS Type</th>
-   	<th>WFS Link</th>
-   	<th>Unique ID Column</th>
-      </tr>
+	<p><h4>State Agency Maps and Web Feature Services (WFS):</h4>
+	<table style="width:300px">
+		<tr>
+		<th></th>
+		</tr>
       <xsl:for-each select="WC:GeospatialReference/WC:WFSType">
    	  <tr>
-   		<td><xsl:value-of select="WC:WFSTypeName"/></td>
    		<td><a><xsl:attribute name="href">
    			<xsl:value-of select="WC:WFSAddressLink"/>
 			</xsl:attribute>
 			<xsl:attribute name="TARGET">
 			<xsl:text disable-output-escaping="yes">
 			_blank</xsl:text>
-			</xsl:attribute>Click Here for WFS</a></td>
-   		<td><xsl:value-of select="WC:WFSFeatureIDFieldText"/></td>
+			</xsl:attribute><xsl:value-of select="WC:WFSTypeName"/></a></td>
   	   </tr>
       </xsl:for-each>
   </table></p>
@@ -105,6 +99,7 @@ or the JSON, geoJSON, etc. -->
    <p>These data were reported on: <xsl:value-of select="WC:ReportingDate"/></p>
    <p><h6>*Note: Allocation/diversion data may be extensive and tables may be expansive. 
    Scroll to the bottom of the page for all data retrieved.</h6></p>
+   
    	<xsl:choose>   
    		<xsl:when test="WC:ReportDetails/WC:WaterAllocation/WC:AllocationAmount">
    		<button type="button" class="btn btn-info collapsed" data-toggle="collapse" data-target="#demo">	
@@ -121,16 +116,16 @@ or the JSON, geoJSON, etc. -->
    		OR the total amount of water that flowed for the allocation if no 
    		diversion was made, for example, an instream flow amount.</p>
    		</div>
-   	</div>
+   		</div>
         </div>   
-   		<p><table border="1">
+   		<p><table>
      		<tr>
        		<th>Allocation ID</th>
        		<th>Allocation Owner</th>
        		<th>Priority Date</th>
        		<th>Legal Status</th>
        		<th>Reporting Unit</th>
-		<th>County</th>
+       		<th>County</th>
        		<th>HUC</th>
        		<th>GIS Feature</th>
        		<th>Beneficial Use</th>
@@ -156,15 +151,14 @@ or the JSON, geoJSON, etc. -->
      		</tr>
      		<xsl:for-each select="WC:ReportDetails/WC:WaterAllocation/WC:AllocationAmount/WC:WaterAllocated/WC:BeneficialUse/WC:BeneficialUseTypeName">
 		<xsl:sort select="../../../../WC:AllocationIdentifier"/>
-		<tr>
-       			<td><xsl:value-of select="../../../../WC:AllocationIdentifier"/></td>
+			<tr>
+       		<td><xsl:value-of select="../../../../WC:AllocationIdentifier"/></td>
 			<td><xsl:value-of select="../../../../WC:AllocationOwnerName"/></td>
 			<td><xsl:value-of select="../../../../WC:PriorityDate"/></td>
 			<td><xsl:value-of select="../../../../WC:LegalStatusCode"/></td>
 			<td><xsl:value-of select="../../../../WC:DetailLocation/WC:ReportingUnitIdentifier"/></td>
 			<td><xsl:value-of select="../../../../WC:DetailLocation/WC:CountyFipsCode"/></td>
 			<td><xsl:value-of select="../../../../WC:DetailLocation/WC:HydrologicUnitCode"/></td>
-			<!--Test for allocation WFS. If yes, add Water Right GIS hyperlink. If no, omit hyperlink. -->
 			<td><xsl:choose>
 				<xsl:when test="../../../../../../WC:GeospatialReference/WC:WFSType/WC:WFSTypeName='ALLOCATION'">
 				<a><xsl:attribute name="href">
@@ -195,8 +189,8 @@ or the JSON, geoJSON, etc. -->
 			<td><xsl:value-of select="../../WC:ActualFlow/WC:ActualVolume/WC:ActualAmountNumber"/></td>
 			<td><xsl:value-of select="../../WC:ActualFlow/WC:ActualVolume/WC:ActualAmountUnitsCode"/></td>
 			<td><xsl:value-of select="../../WC:ActualFlow/WC:ActualVolume/WC:ValueTypeCode"/></td>			
-			<td><a><xsl:attribute name="href"/>
-			<xsl:value-of select="../../../../../../../WC:WaDEURLAddress"/>	
+			<td><a><xsl:attribute name="href">
+	            	<xsl:value-of select="../../../../../../../WC:WaDEURLAddress"/>	
 						<xsl:text disable-output-escaping="yes">/WADE/v0.2/GetMethod/GetMethod.php?methodid=</xsl:text>
 						<xsl:value-of select="../../../../../../../WC:OrganizationIdentifier"/>
 						<xsl:text disable-output-escaping="yes">&amp;methodname=</xsl:text>
@@ -231,14 +225,13 @@ or the JSON, geoJSON, etc. -->
 	<ul class="nav nav-pills pull-right">
 	</ul></div>
 	</xsl:when>
-	</xsl:choose>
-
+</xsl:choose>
 <xsl:choose>
    <xsl:when test="WC:ReportDetails/WC:WaterAllocation/WC:Diversion">	
 	<button type="button" class="btn btn-info collapsed" data-toggle="collapse" data-target="#demo2">	   
 	<p><b><u><h4>Water Allocations and Associated Diversions</h4></u></b></p></button>
    		<div id="demo2" class="collapse">	
-   		<p><table border="1">
+   		<p><table>
      		<tr>
        		<th>Allocation ID</th>
        		<th>Allocation Owner</th>
@@ -281,7 +274,6 @@ or the JSON, geoJSON, etc. -->
 			<td><xsl:value-of select="../../../../WC:DetailLocation/WC:ReportingUnitIdentifier"/></td>
 			<td><xsl:value-of select="../../../../WC:DetailLocation/WC:CountyFipsCode"/></td>
 			<td><xsl:value-of select="../../../../WC:DetailLocation/WC:HydrologicUnitCode"/></td>
-			<!--Test for diversion WFS. If yes, add Diversion GIS hyperlink. If no, omit hyperlink. -->
 			<td><xsl:choose>
 				<xsl:when test="../../../../../../../WC:GeospatialReference/WC:WFSType/WC:WFSTypeName='DIVERSION'">
 				<a><xsl:attribute name="href">
@@ -352,7 +344,7 @@ or the JSON, geoJSON, etc. -->
 	<button type="button" class="btn btn-info collapsed" data-toggle="collapse" data-target="#demo3">
 	<p><b><u><h4>Water Allocations and Associated Consumptive Uses</h4></u></b></p></button>
 	<div id="demo3" class="collapse">
-		<p><table border="1">
+		<p><table>
      		<tr>
        		<th>Allocation ID</th>
        		<th>Allocation Owner</th>
@@ -392,7 +384,6 @@ or the JSON, geoJSON, etc. -->
 			<td><xsl:value-of select="../../WC:DetailLocation/WC:ReportingUnitIdentifier"/></td>
 			<td><xsl:value-of select="../../WC:DetailLocation/WC:CountyFipsCode"/></td>
 			<td><xsl:value-of select="../../WC:DetailLocation/WC:HydrologicUnitCode"/></td>
-			<!--Test for use WFS. If yes, add Use GIS hyperlink. If no, omit hyperlink. -->
 			<td><xsl:choose>
 				<xsl:when test="../../../../../WC:GeospatialReference/WC:WFSType/WC:WFSTypeName='USE'">
 				<a><xsl:attribute name="href">
@@ -449,7 +440,7 @@ or the JSON, geoJSON, etc. -->
 	<button type="button" class="btn btn-info collapsed" data-toggle="collapse" data-target="#demo4">	
 		<p><b><u><h4>Water Allocations and Associated Return Flows</h4></u></b></p></button>
 		<div id="demo4" class="collapse">
-		<p><table border="1">
+		<p><table>
      		<tr>
        		<th>Allocation ID</th>
        		<th>Allocation Owner</th>

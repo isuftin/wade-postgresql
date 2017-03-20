@@ -1,0 +1,17 @@
+# Enable the Rewrite Engine
+RewriteEngine On
+
+# Match a folder name, www.example.com/dev/ in this case
+RewriteBase /dev/
+
+# SEO URL's for PHP files
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Hide the .php extension to prevent double content
+RewriteRule ^(.+).php$ $1 [NC,L,R=301]
+
+# Rewrite to, and present the contents of the .php files, 
+# if there is no file extension in the URL.
+#   For example: /foo shows /foo.php
+RewriteRule ^([^/]+)(?:/(.+))?$ $1.php?(?2p=$2) [L]
